@@ -18,15 +18,21 @@ public class PID {
     public double Calculate(int targetPos, int currentPos, ElapsedTime runtime) {
         double error = targetPos - currentPos;
 
-        integral += error * runtime.seconds();
+        return Kp * error;
 
-        double derivative = (error - previousError) / runtime.seconds();
-
-        previousError = error;
-
-        runtime.reset();
-
-        return Kp * error + Ki * integral + Kd * derivative;
+//        ElapsedTime runtime2 = new ElapsedTime();
+//
+//        integral += error * runtime.seconds();
+//
+//        double derivative = (error - previousError) / runtime.seconds();
+//
+//        previousError = error;
+//
+//        //runtime.reset();
+//        runtime2.reset();
+//
+//
+//        return Kp * error + Ki * integral + Kd * derivative;
     }
 
 }

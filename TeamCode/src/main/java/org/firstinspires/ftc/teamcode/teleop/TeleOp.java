@@ -1,33 +1,41 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.systems.Robot;
+import org.firstinspires.ftc.teamcode.systems.PID;
+import org.firstinspires.ftc.teamcode.systems.subsystems.Chassis;
+import org.firstinspires.ftc.teamcode.systems.subsystems.Slides;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
 public class TeleOp extends OpMode {
 
-    private Robot robot;
+    private Chassis chassis;
+    private Slides slidesY;
 
-    public int targetPosY;
-    public int targetPosX;
-
+    private Slides slidesX;
 
     @Override
     public void init() {
-        robot = new Robot(hardwareMap);
+        chassis = new Chassis(hardwareMap);
+        slidesY = new Slides(hardwareMap);
+        slidesX = new Slides(hardwareMap);
     }
 
     @Override
     public void loop() {
-        robot.Drive(gamepad1);
+        ElapsedTime runtime = new ElapsedTime();
 
-        targetPosY -= (int) (-gamepad2.left_stick_y * 10);
-        robot.MoveYSlides(targetPosY);
+        chassis.Drive(gamepad1);
 
-        targetPosX -= (int) (-gamepad2.right_stick_y * 10);
-        robot.MoveXSlides(targetPosX);
+        slidesY.Up(gamepad2.right_trigger);
 
 
+
+//        targetPosY -= (int) (-gamepad2.left_stick_y * 10);
+//        YSlides.Move(targetPosY, runtime);
+//
+//        telemetry.addData("Lift Pos", YSlides.getPos());
     }
 }
