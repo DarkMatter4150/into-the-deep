@@ -37,8 +37,8 @@ public class Intake {
     }
 
     public void Out() {
-        roller1.setPower(0);
-        roller2.setPower(0);
+        roller1.setPower(-1);
+        roller2.setPower(-1);
     }
 
 }
