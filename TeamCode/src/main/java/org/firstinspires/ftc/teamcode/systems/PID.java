@@ -20,17 +20,13 @@ public class PID {
 
         return Kp * error;
 
-//        ElapsedTime runtime2 = new ElapsedTime();
-//
 //        integral += error * runtime.seconds();
 //
 //        double derivative = (error - previousError) / runtime.seconds();
 //
 //        previousError = error;
 //
-//        //runtime.reset();
-//        runtime2.reset();
-//
+//        runtime.reset();
 //
 //        return Kp * error + Ki * integral + Kd * derivative;
     }

@@ -6,19 +6,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Chassis {
 
-//  private DcMotor[] motors = new DcMotor[4];
-
     private DcMotor leftFrontDrive = null;
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
 
     public Chassis(DcMotor fl, DcMotor bl, DcMotor fr, DcMotor br) {
-//        motors[0] = hardwareMap.dcMotor.get("fl");
-//        motors[1] = hardwareMap.dcMotor.get("fr");
-//        motors[2] = hardwareMap.dcMotor.get("bl");
-//        motors[3] = hardwareMap.dcMotor.get("br");
-
         leftFrontDrive = fl;
         leftBackDrive = bl;
         rightFrontDrive = fr;
@@ -30,29 +23,7 @@ public class Chassis {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
     }
 
-    public void Drive(Gamepad gamepad) {
-        double strafe = 1.1;
-        double y = -gamepad.left_stick_y; // Remember, Y stick value is reversed
-        double x = gamepad.left_stick_x * strafe; // Counteract imperfect strafing
-        double rx = gamepad.right_stick_x;
-
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-
-        // Vary the speed multiplier based on the left trigger
-        double brake = gamepad.left_trigger;
-
-        double flPow = ((y + x + rx) / denominator) * brake;
-        double frPow = ((y - x + rx) / denominator) * brake;
-        double blPow = ((y - x - rx) / denominator) * brake;
-        double brPow = ((y + x - rx) / denominator) * brake;
-
-//        motors[0].setPower(flPow);
-//        motors[1].setPower(frPow);
-//        motors[2].setPower(blPow);
-//        motors[3].setPower(brPow);
-    }
-
-    public void NewDrive(Gamepad gamepad1) {
+    public void Drive(Gamepad gamepad1) {
         double max;
 
         double axial   = -gamepad1.left_stick_y;
@@ -74,6 +45,17 @@ public class Chassis {
             leftBackPower   /= max;
             rightBackPower  /= max;
         }
-    }
 
+        double brake = gamepad1.left_trigger;
+
+        leftFrontPower  *= brake;
+        rightFrontPower *= brake;
+        leftBackPower   *= brake;
+        rightBackPower  *= brake;
+
+        leftFrontDrive.setPower(leftFrontPower);
+        rightFrontDrive.setPower(rightFrontPower);
+        leftBackDrive.setPower(leftBackPower);
+        rightBackDrive.setPower(rightBackPower);
+    }
 }
