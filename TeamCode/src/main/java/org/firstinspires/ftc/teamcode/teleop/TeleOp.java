@@ -16,10 +16,12 @@ public class TeleOp extends OpMode {
     private Slides slides;
 
     private SpecSystem specSystem;
-
     private boolean flipperToggle = false;
     private boolean clawToggle = false;
+
     private SampleSystem sampleSystem;
+    private boolean linkageToggle = false;
+    private boolean arclinkageToggle = false;
 
     Gamepad previousGamepad2 = new Gamepad();
     Gamepad currentGamepad2 = new Gamepad();
@@ -44,18 +46,28 @@ public class TeleOp extends OpMode {
         if (currentGamepad2.b && !previousGamepad2.b){
             flipperToggle = !flipperToggle;
         }
-        if (currentGamepad2.x && !previousGamepad2.x){
+        if (currentGamepad2.a && !previousGamepad2.a){
             clawToggle = !clawToggle;
+        }
+        if (currentGamepad2.y && !previousGamepad2.y){
+            linkageToggle = !linkageToggle;
+        }
+        if (currentGamepad2.x && !previousGamepad2.x){
+            arclinkageToggle = !arclinkageToggle;
         }
 
         chassis.Drive(gamepad1);
 
-        //TODO
-        slides.Move(gamepad2.right_trigger);
+        //TODO Slides PID
+        //slides.Move(gamepad2.right_trigger);
 
-        sampleSystem.In(gamepad2.right_trigger - gamepad2.left_trigger);
+        //SpecSystem
+//      specSystem.Flip(flipperToggle); //Tested
+//      specSystem.Claw(clawToggle); //Zero Servos
 
-        specSystem.Flip(flipperToggle);
-        specSystem.Claw(clawToggle);
+        //SampleSystem
+        sampleSystem.RunRollers(gamepad2.right_trigger - gamepad2.left_trigger); //Tested
+//      sampleSystem.MoveLinkage(linkageToggle); //Zero Servos
+//      sampleSystem.MoveArcLinkage(arclinkageToggle); //Zero Servos
     }
 }

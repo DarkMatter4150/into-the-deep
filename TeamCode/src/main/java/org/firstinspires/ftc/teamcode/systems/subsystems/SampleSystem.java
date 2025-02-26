@@ -8,47 +8,48 @@ public class SampleSystem {
     private Servo linkage1;
     private Servo linkage2;
 
+    private Servo arclinkage1;
+    private Servo arclinkage2;
+
     private CRServo roller1;
     private CRServo roller2;
 
-    private CRServo angular1;
-    private CRServo angular2;
-
-    private double intakePosDown = .5;
+    private double sampleSystemPosDown = .5;
 
     public SampleSystem(HardwareMap hardwareMap) {
-        linkageOne = hardwareMap.servo.get("linkageOne");
-        linkageTwo = hardwareMap.servo.get("linkageTwo");
+        linkage1 = hardwareMap.servo.get("linkageOne");
+        linkage2 = hardwareMap.servo.get("linkageTwo");
+
+        arclinkage1 = hardwareMap.servo.get("leftLifter");
+        arclinkage2 = hardwareMap.servo.get("rightLifter");
 
         roller1 = hardwareMap.crservo.get("leftWheel");
         roller2 = hardwareMap.crservo.get("rightWheel");
-
-        angular1 = hardwareMap.crservo.get("leftLifter");
-        angular2 = hardwareMap.crservo.get("rightLifter");
     }
 
-    public void FlipDown() {
-        intake.setPosition(intakePosDown);
-
-    }
-
-    public void FlipUp() {
-        intake.setPosition(0);
-    }
-
-    public void In(double range) {
+    public void RunRollers(double range) {
         roller1.setPower(-range);
         roller2.setPower(range);
     }
 
-    public void Stop() {
-        roller1.setPower(0);
-        roller2.setPower(0);
+    public void MoveLinkage(boolean toggle) {
+        if (toggle) {
+            linkage1.setPosition(sampleSystemPosDown);
+            linkage2.setPosition(1 - sampleSystemPosDown);
+        } else {
+            linkage1.setPosition(0);
+            linkage2.setPosition(1);
+        }
     }
 
-    public void Out() {
-        roller1.setPower(-1);
-        roller2.setPower(-1);
+    public void MoveArcLinkage(boolean toggle) {
+        if (toggle) {
+            arclinkage1.setPosition(sampleSystemPosDown);
+            arclinkage2.setPosition(1 - sampleSystemPosDown);
+        } else {
+            arclinkage1.setPosition(0);
+            arclinkage2.setPosition(1);
+        }
     }
 
 }
