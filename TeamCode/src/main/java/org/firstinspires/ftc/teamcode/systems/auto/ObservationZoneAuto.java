@@ -27,20 +27,19 @@ public class ObservationZoneAuto extends OpMode {
 
     @Override
     public void loop(){
-        if(!started){
+        if(!started) {
             time = new ElapsedTime();
             started=true;
         }
-        if(time.seconds() < 1.8){ // go straight to zone
+        if(time.seconds() < 1.8) {
             strafeRight(0.5);
-        }else{
+        }
+        else{
             fl.setPower(0);
             br.setPower(0);
             fr.setPower(0);
             bl.setPower(0);
         }
-
-
     }
     public void strafeRight(double power){
         fl.setPower(-power);

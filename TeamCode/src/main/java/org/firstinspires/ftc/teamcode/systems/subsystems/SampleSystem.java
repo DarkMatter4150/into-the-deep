@@ -14,17 +14,15 @@ public class SampleSystem {
     private CRServo roller1;
     private CRServo roller2;
 
-    private double sampleSystemPosDown = .5;
-
     public SampleSystem(HardwareMap hardwareMap) {
-        linkage1 = hardwareMap.servo.get("linkageOne");
-        linkage2 = hardwareMap.servo.get("linkageTwo");
+        linkage1 = hardwareMap.servo.get("linkage1");
+        linkage2 = hardwareMap.servo.get("linkage2");
 
-        arclinkage1 = hardwareMap.servo.get("leftLifter");
-        arclinkage2 = hardwareMap.servo.get("rightLifter");
+        arclinkage1 = hardwareMap.servo.get("arclinkage1");
+        arclinkage2 = hardwareMap.servo.get("arclinkage2");
 
-        roller1 = hardwareMap.crservo.get("leftWheel");
-        roller2 = hardwareMap.crservo.get("rightWheel");
+        roller1 = hardwareMap.crservo.get("roller1");
+        roller2 = hardwareMap.crservo.get("roller2");
     }
 
     public void RunRollers(double range) {
@@ -34,21 +32,21 @@ public class SampleSystem {
 
     public void MoveLinkage(boolean toggle) {
         if (toggle) {
-            linkage1.setPosition(sampleSystemPosDown);
-            linkage2.setPosition(1 - sampleSystemPosDown);
+            linkage1.setPosition(0.85);
+            linkage2.setPosition(0.15);
         } else {
-            linkage1.setPosition(0);
-            linkage2.setPosition(1);
+            linkage1.setPosition(1);
+            linkage2.setPosition(0);
         }
     }
 
     public void MoveArcLinkage(boolean toggle) {
         if (toggle) {
-            arclinkage1.setPosition(sampleSystemPosDown);
-            arclinkage2.setPosition(1 - sampleSystemPosDown);
+            arclinkage1.setPosition(0.59);
+            arclinkage2.setPosition(0.41);
         } else {
-            arclinkage1.setPosition(0);
-            arclinkage2.setPosition(1);
+            arclinkage1.setPosition(1);
+            arclinkage2.setPosition(0);
         }
     }
 

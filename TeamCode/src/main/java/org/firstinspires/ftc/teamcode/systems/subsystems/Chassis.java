@@ -6,21 +6,21 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Chassis {
 
-    private DcMotor leftFrontDrive = null;
-    private DcMotor leftBackDrive = null;
-    private DcMotor rightFrontDrive = null;
-    private DcMotor rightBackDrive = null;
+    private DcMotor fl = null;
+    private DcMotor bl = null;
+    private DcMotor fr = null;
+    private DcMotor br = null;
 
-    public Chassis(DcMotor fl, DcMotor bl, DcMotor fr, DcMotor br) {
-        leftFrontDrive = fl;
-        leftBackDrive = bl;
-        rightFrontDrive = fr;
-        rightBackDrive = br;
+    public Chassis(HardwareMap hardwareMap) {
+        fl = hardwareMap.get(DcMotor.class, "fl");
+        fr = hardwareMap.get(DcMotor.class, "fr");
+        bl = hardwareMap.get(DcMotor.class, "bl");
+        br = hardwareMap.get(DcMotor.class, "br");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.FORWARD);
     }
 
     public void Drive(Gamepad gamepad1) {
@@ -53,9 +53,9 @@ public class Chassis {
         leftBackPower   *= brake;
         rightBackPower  *= brake;
 
-        leftFrontDrive.setPower(leftFrontPower);
-        rightFrontDrive.setPower(rightFrontPower);
-        leftBackDrive.setPower(leftBackPower);
-        rightBackDrive.setPower(rightBackPower);
+        fl.setPower(leftFrontPower);
+        fr.setPower(rightFrontPower);
+        bl.setPower(leftBackPower);
+        br.setPower(rightBackPower);
     }
 }

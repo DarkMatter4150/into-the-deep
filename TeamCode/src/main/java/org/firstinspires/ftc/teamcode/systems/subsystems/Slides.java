@@ -11,11 +11,11 @@ public class Slides {
     DcMotor primary;
     DcMotor secondary;
 
-    PID controller = new PID(0, 0, 0);
+    PID controller = new PID(0.1, 0, 0);
 
     public Slides(HardwareMap hardwareMap) {
-        primary = hardwareMap.dcMotor.get("primaryY");
-        secondary = hardwareMap.dcMotor.get("secondaryY");
+        primary = hardwareMap.dcMotor.get("primary");
+        secondary = hardwareMap.dcMotor.get("secondary");
     }
 
     public void Move(float throttle) {
