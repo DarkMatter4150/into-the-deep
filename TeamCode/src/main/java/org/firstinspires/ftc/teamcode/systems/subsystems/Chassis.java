@@ -15,13 +15,14 @@ public class Chassis {
     private DcMotor fr = null;
     private DcMotor br = null;
 
-    private IMU imu = null;
+    //private IMU imu = null;
 
-    public Chassis(HardwareMap hardwareMap) {
-        fl = hardwareMap.get(DcMotor.class, "fl");
-        fr = hardwareMap.get(DcMotor.class, "fr");
-        bl = hardwareMap.get(DcMotor.class, "bl");
-        br = hardwareMap.get(DcMotor.class, "br");
+    public Chassis(DcMotor fl, DcMotor fr, DcMotor bl, DcMotor br) {
+
+        this.fl = fl;
+        this.fr = fr;
+        this.bl = bl;
+        this.br = br;
 
         fl.setDirection(DcMotor.Direction.REVERSE);
         fr.setDirection(DcMotor.Direction.FORWARD);
@@ -39,16 +40,16 @@ public class Chassis {
     }
 
     public void Drive(Gamepad gamepad1) {
-        double max;
+        float max;
 
-        double axial   = -gamepad1.left_stick_y;
-        double lateral =  gamepad1.left_stick_x;
-        double yaw     =  gamepad1.right_stick_x;
+        float axial   = -gamepad1.left_stick_y;
+        float lateral =  gamepad1.left_stick_x;
+        float yaw     =  gamepad1.right_stick_x;
 
-        double leftFrontPower  = axial + lateral + yaw;
-        double rightFrontPower = axial - lateral - yaw;
-        double leftBackPower   = axial - lateral + yaw;
-        double rightBackPower  = axial + lateral - yaw;
+        float leftFrontPower  = axial + lateral + yaw;
+        float rightFrontPower = axial - lateral - yaw;
+        float leftBackPower   = axial - lateral + yaw;
+        float rightBackPower  = axial + lateral - yaw;
 
         max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
         max = Math.max(max, Math.abs(leftBackPower));
@@ -61,7 +62,7 @@ public class Chassis {
             rightBackPower  /= max;
         }
 
-        double brake = gamepad1.left_trigger;
+        float brake = gamepad1.left_trigger;
 
         leftFrontPower  *= brake;
         rightFrontPower *= brake;
@@ -74,34 +75,34 @@ public class Chassis {
         br.setPower(rightBackPower);
     }
 
-    public void DriveFieldCentric(Gamepad gamepad1) {
-        double y = -gamepad1.left_stick_y;
-        double x = gamepad1.left_stick_x;
-        double rx = gamepad1.right_stick_x;
-
-        double heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-        double rotX = x * Math.cos(-heading) - y * Math.sin(-heading);
-        double rotY = x * Math.sin(-heading) + y * Math.cos(-heading);
-
-        rotX = rotX * 1.1;
-
-        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-        double leftFrontPower = (rotY + rotX + rx) / denominator;
-        double leftBackPower = (rotY - rotX + rx) / denominator;
-        double rightFrontPower = (rotY - rotX - rx) / denominator;
-        double rightBackPower = (rotY + rotX - rx) / denominator;
-
-        double brake = gamepad1.left_trigger;
-
-        leftFrontPower  *= brake;
-        rightFrontPower *= brake;
-        leftBackPower   *= brake;
-        rightBackPower  *= brake;
-
-        fl.setPower(leftFrontPower);
-        fr.setPower(rightFrontPower);
-        bl.setPower(leftBackPower);
-        br.setPower(rightBackPower);
-    }
+//    public void DriveFieldCentric(Gamepad gamepad1) {
+//        double y = -gamepad1.left_stick_y;
+//        double x = gamepad1.left_stick_x;
+//        double rx = gamepad1.right_stick_x;
+//
+//        double heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+//
+//        double rotX = x * Math.cos(-heading) - y * Math.sin(-heading);
+//        double rotY = x * Math.sin(-heading) + y * Math.cos(-heading);
+//
+//        rotX = rotX * 1.1;
+//
+//        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+//        double leftFrontPower = (rotY + rotX + rx) / denominator;
+//        double leftBackPower = (rotY - rotX + rx) / denominator;
+//        double rightFrontPower = (rotY - rotX - rx) / denominator;
+//        double rightBackPower = (rotY + rotX - rx) / denominator;
+//
+//        double brake = gamepad1.left_trigger;
+//
+//        leftFrontPower  *= brake;
+//        rightFrontPower *= brake;
+//        leftBackPower   *= brake;
+//        rightBackPower  *= brake;
+//
+//        fl.setPower(leftFrontPower);
+//        fr.setPower(rightFrontPower);
+//        bl.setPower(leftBackPower);
+//        br.setPower(rightBackPower);
+//    }
 }
